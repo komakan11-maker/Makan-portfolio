@@ -70,17 +70,19 @@ nav {
     color: #8b5cf6;
 }
 
-/* HERO SECTION */
+/* HERO SECTION (ACCUEIL) - OPTIMISÉ GRANDS ÉCRANS */
 .hero {
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 120px 10% 60px;
+    padding: 120px 8% 60px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .hero-text {
-    max-width: 650px;
+    max-width: 750px;
 }
 
 .subtitle {
@@ -92,7 +94,7 @@ nav {
 }
 
 h1 {
-    font-size: 65px;
+    font-size: clamp(45px, 5vw, 75px);
     line-height: 1.1;
     margin-bottom: 25px;
     letter-spacing: -2px;
@@ -106,7 +108,7 @@ h1 span {
 .description {
     color: #999999;
     font-size: 20px;
-    max-width: 550px;
+    max-width: 600px;
     margin-bottom: 35px;
 }
 
@@ -147,13 +149,14 @@ h1 span {
 }
 
 .photo {
-    width: 320px;
-    height: 320px;
+    width: clamp(280px, 22vw, 400px);
+    height: clamp(280px, 22vw, 400px);
     border-radius: 50%;
     padding: 5px;
     background-color: #8b5cf6;
     box-shadow: 0 0 40px rgba(139, 92, 246, 0.35);
     animation: floating 4s ease-in-out infinite;
+    flex-shrink: 0;
 }
 
 .photo img {
@@ -166,8 +169,8 @@ h1 span {
 
 /* SECTIONS GÉNÉRALES */
 section:not(.hero) {
-    padding: 90px 10%;
-    max-width: 1100px;
+    padding: 100px 8%;
+    max-width: 1400px;
     margin: auto;
     animation: appear 1s ease;
 }
@@ -185,7 +188,7 @@ section p {
 
 /* À PROPOS & RECHERCHE */
 #apropos p {
-    max-width: 800px;
+    max-width: 850px;
     line-height: 1.8;
 }
 
@@ -450,7 +453,19 @@ footer {
     }
 }
 
-/* RESPONSIVE */
+/* ADAPTATION TRÈS GRANDS ÉCRANS (28" ET +) */
+@media (min-width: 1400px) {
+    .competences-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 50px;
+    }
+    
+    .tech-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* RESPONSIVE ÉCRANS MOYENS ET MOBILES */
 @media (max-width: 900px) {
     .competences-container {
         grid-template-columns: 1fr;
