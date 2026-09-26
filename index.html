@@ -6,7 +6,7 @@
   <title>Portfolio — Makan KONATÉ</title>
   <style>
     /* ==========================================================================
-       1. VARIABLES ET RESET
+       1. VARIABLES ET RESET AVEC EFFETS DYNAMIQUES
        ========================================================================== */
     :root {
       --bg-color: #0b0d12;
@@ -15,9 +15,11 @@
       --text-main: #f0f2f5;
       --text-muted: #94a3b8;
       --accent: #8b5cf6;
-      --accent-glow: rgba(139, 92, 246, 0.3);
+      --accent-hover: #a78bfa;
+      --accent-glow: rgba(139, 92, 246, 0.4);
       --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --container-width: 1400px;
+      --transition-speed: 0.3s;
     }
 
     * {
@@ -26,15 +28,20 @@
       padding: 0;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       background-color: var(--bg-color);
       color: var(--text-main);
       font-family: var(--font-main);
       line-height: 1.6;
       overflow-x: hidden;
+      position: relative;
     }
 
-    /* Grille de fond subtile */
+    /* Grille de fond animée avec lueur néon */
     body::before {
       content: "";
       position: fixed;
@@ -43,11 +50,17 @@
       width: 100vw;
       height: 100vh;
       background-image: 
-        radial-gradient(var(--card-border) 1px, transparent 1px);
+        radial-gradient(rgba(139, 92, 246, 0.25) 1.5px, transparent 1.5px);
       background-size: 32px 32px;
-      opacity: 0.2;
+      opacity: 0.35;
       z-index: -1;
       pointer-events: none;
+      animation: gridPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes gridPulse {
+      0% { opacity: 0.25; }
+      100% { opacity: 0.45; }
     }
 
     .container {
@@ -58,17 +71,21 @@
     }
 
     section {
-      padding: 5rem 0;
+      padding: 6rem 0;
       border-bottom: 1px solid var(--card-border);
+      position: relative;
     }
 
     /* ==========================================================================
-       2. TYPOGRAPHIE RESPONSIVE
+       2. TYPOGRAPHIE RESPONSIVE (CLAMP)
        ========================================================================== */
     h1 {
       font-size: clamp(2.5rem, 5vw, 4.5rem);
       font-weight: 800;
       letter-spacing: -1px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     h2 {
@@ -85,6 +102,7 @@
       font-weight: 600;
       margin-bottom: 0.5rem;
       display: block;
+      text-shadow: 0 0 10px var(--accent-glow);
     }
 
     p {
@@ -93,7 +111,7 @@
     }
 
     /* ==========================================================================
-       3. NAVIGATION
+       3. NAVIGATION ET EFFETS HOVER
        ========================================================================== */
     header {
       position: fixed;
@@ -101,8 +119,10 @@
       width: 100%;
       background: rgba(11, 13, 18, 0.85);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 1000;
       border-bottom: 1px solid var(--card-border);
+      transition: all var(--transition-speed);
     }
 
     .nav-container {
@@ -113,14 +133,20 @@
     }
 
     .logo {
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       font-weight: 700;
       color: var(--text-main);
       text-decoration: none;
+      transition: transform var(--transition-speed);
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
     }
 
     .logo span {
       color: var(--accent);
+      text-shadow: 0 0 10px var(--accent-glow);
     }
 
     nav ul {
@@ -133,21 +159,52 @@
       color: var(--text-muted);
       text-decoration: none;
       font-size: 0.95rem;
-      transition: color 0.3s;
+      position: relative;
+      padding: 0.3rem 0;
+      transition: color var(--transition-speed);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      box-shadow: 0 0 8px var(--accent);
+      transition: width var(--transition-speed) ease-in-out;
     }
 
     nav a:hover {
-      color: var(--accent);
+      color: var(--text-main);
+    }
+
+    nav a:hover::after {
+      width: 100%;
     }
 
     /* ==========================================================================
-       4. HERO SECTION
+       4. HERO SECTION AVEC PHOTO DE PROFIL
        ========================================================================== */
     .hero {
       min-height: 90vh;
       display: flex;
       align-items: center;
       padding-top: 100px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    @media (min-width: 992px) {
+      .hero-grid {
+        grid-template-columns: 1.8fr 1fr;
+      }
     }
 
     .hero-content {
@@ -160,11 +217,33 @@
       font-weight: 600;
       margin-top: 0.5rem;
       margin-bottom: 1.5rem;
+      text-shadow: 0 0 15px var(--accent-glow);
     }
 
     .hero-text {
       margin-bottom: 2rem;
       max-width: 700px;
+    }
+
+    .hero-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .profile-img {
+      width: min(280px, 80vw);
+      height: min(280px, 80vw);
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      box-shadow: 0 0 30px var(--accent-glow);
+      transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+    }
+
+    .profile-img:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 45px var(--accent-glow);
     }
 
     .btn {
@@ -178,18 +257,20 @@
       font-weight: 600;
       border-radius: 8px;
       box-shadow: 0 0 20px var(--accent-glow);
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: none;
+      transition: all var(--transition-speed) ease;
+      border: 1px solid var(--accent);
       cursor: pointer;
     }
 
     .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 30px var(--accent-glow);
+      transform: translateY(-3px);
+      background: var(--accent-hover);
+      box-shadow: 0 0 35px var(--accent-glow);
+      border-color: var(--accent-hover);
     }
 
     /* ==========================================================================
-       5. À PROPOS & DISPONIBILITÉ
+       5. CARTES / FICHES AVEC EFFET HOVER & GLOW
        ========================================================================== */
     .about-grid {
       display: grid;
@@ -209,6 +290,15 @@
       border: 1px solid var(--card-border);
       border-radius: 12px;
       padding: 2rem;
+      transition: all var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.3);
     }
 
     .badge {
@@ -221,6 +311,7 @@
       font-size: 0.8rem;
       font-weight: 600;
       margin-bottom: 1rem;
+      box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
     }
 
     .card h3 {
@@ -274,6 +365,11 @@
     .timeline-item {
       position: relative;
       margin-bottom: 2rem;
+      transition: transform var(--transition-speed);
+    }
+
+    .timeline-item:hover {
+      transform: translateX(4px);
     }
 
     .timeline-item::before {
@@ -285,7 +381,7 @@
       height: 8px;
       border-radius: 50%;
       background: var(--accent);
-      box-shadow: 0 0 10px var(--accent);
+      box-shadow: 0 0 12px var(--accent);
     }
 
     .timeline-date {
@@ -324,6 +420,13 @@
       padding: 1.5rem;
       border-radius: 12px;
       margin-top: 2rem;
+      transition: all var(--transition-speed);
+    }
+
+    .cert-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 10px 25px -10px var(--accent-glow);
     }
 
     .skills-grid {
@@ -346,6 +449,13 @@
       padding: 0.3rem 0.7rem;
       border-radius: 6px;
       font-size: 0.85rem;
+      transition: all var(--transition-speed);
+    }
+
+    .tag:hover {
+      background: rgba(139, 92, 246, 0.15);
+      border-color: var(--accent);
+      color: #fff;
     }
 
     /* ==========================================================================
@@ -366,6 +476,13 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: all var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent);
+      box-shadow: 0 10px 30px -10px var(--accent-glow);
     }
 
     .project-header {
@@ -428,12 +545,14 @@
       border-radius: 8px;
       color: var(--text-main);
       font-family: inherit;
+      transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
     }
 
     .form-group input:focus,
     .form-group textarea:focus {
       outline: none;
       border-color: var(--accent);
+      box-shadow: 0 0 10px var(--accent-glow);
     }
 
     footer {
@@ -464,17 +583,22 @@
     </div>
   </header>
 
-  <!-- ACCUEIL / HERO -->
+  <!-- ACCUEIL / HERO AVEC PHOTO -->
   <section class="hero" id="home">
     <div class="container">
-      <div class="hero-content">
-        <h1>Makan KONATÉ</h1>
-        <div class="hero-subtitle">Étudiant en Informatique • Systèmes et Réseaux (BTS SIO SISR)</div>
-        <p class="hero-text">
-          Âgé de 21 ans, je suis en cours de formation pour me spécialiser dans les systèmes et réseaux. 
-          Passionné par les dangers d'Internet, je suis particulièrement intéressé par le secteur de la cybersécurité.
-        </p>
-        <a href="CV_Makan_KONATE.pdf" class="btn" target="_blank">📄 Mon CV</a>
+      <div class="hero-grid">
+        <div class="hero-content">
+          <h1>Makan KONATÉ</h1>
+          <div class="hero-subtitle">Étudiant en Informatique • Systèmes et Réseaux (BTS SIO SISR)</div>
+          <p class="hero-text">
+            Âgé de 21 ans, je suis en cours de formation pour me spécialiser dans les systèmes et réseaux. 
+            Passionné par les dangers d'Internet, je suis particulièrement intéressé par le secteur de la cybersécurité.
+          </p>
+          <a href="CV_Makan_KONATE.pdf" class="btn" target="_blank">📄 Mon CV</a>
+        </div>
+        <div class="hero-image-container">
+          <img src="photo-makan.jpg" alt="Photo de Makan KONATÉ" class="profile-img">
+        </div>
       </div>
     </div>
   </section>
@@ -847,6 +971,7 @@
       });
     });
 
+    // Formulaire de contact
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
       contactForm.addEventListener('submit', function(e) {
