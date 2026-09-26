@@ -26,6 +26,7 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      cursor: none; /* Masque le curseur par défaut pour afficher le curseur personnalisé */
     }
 
     html {
@@ -41,26 +42,52 @@
       position: relative;
     }
 
-    /* Grille de fond animée avec lueur néon */
+    /* CURSEUR PERSONNALISÉ (BOULE VIOLETTE ET NOIRE) */
+    .custom-cursor {
+      position: fixed;
+      width: 24px;
+      height: 24px;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.9) 0%, rgba(11, 13, 18, 0.95) 70%);
+      border: 2px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease-out, width 0.2s, height 0.2s, background 0.2s;
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    .custom-cursor.active {
+      width: 36px;
+      height: 36px;
+      background: radial-gradient(circle, rgba(167, 139, 250, 1) 0%, rgba(11, 13, 18, 0.8) 80%);
+      box-shadow: 0 0 25px var(--accent);
+    }
+
+    /* FONDS DE POINTS VIOLETS MONTANTS VERS LE CIEL */
     body::before {
       content: "";
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
-      height: 100vh;
+      height: 200vh;
       background-image: 
-        radial-gradient(rgba(139, 92, 246, 0.25) 1.5px, transparent 1.5px);
-      background-size: 32px 32px;
-      opacity: 0.35;
+        radial-gradient(rgba(139, 92, 246, 0.35) 2px, transparent 2px);
+      background-size: 36px 36px;
+      opacity: 0.4;
       z-index: -1;
       pointer-events: none;
-      animation: gridPulse 8s ease-in-out infinite alternate;
+      animation: movePointsUp 20s linear infinite;
     }
 
-    @keyframes gridPulse {
-      0% { opacity: 0.25; }
-      100% { opacity: 0.45; }
+    @keyframes movePointsUp {
+      0% {
+        transform: translateY(0);
+      }
+      100% {
+        transform: translateY(-50vh);
+      }
     }
 
     .container {
@@ -186,7 +213,7 @@
     }
 
     /* ==========================================================================
-       4. HERO SECTION AVEC PHOTO DE PROFIL
+       4. HERO SECTION AVEC PHOTO FLOTTANTE
        ========================================================================== */
     .hero {
       min-height: 90vh;
@@ -232,6 +259,7 @@
       align-items: center;
     }
 
+    /* PHOTO QUI BOUGE (ANIMATION FLOTTANTE DYNAMIQUE) */
     .profile-img {
       width: min(280px, 80vw);
       height: min(280px, 80vw);
@@ -239,12 +267,24 @@
       border-radius: 50%;
       border: 3px solid var(--accent);
       box-shadow: 0 0 30px var(--accent-glow);
-      transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+      animation: floatAnimation 4s ease-in-out infinite alternate;
+      transition: box-shadow var(--transition-speed);
+    }
+
+    @keyframes floatAnimation {
+      0% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-12px) rotate(1.5deg);
+      }
+      100% {
+        transform: translateY(6px) rotate(-1.5deg);
+      }
     }
 
     .profile-img:hover {
-      transform: scale(1.03);
-      box-shadow: 0 0 45px var(--accent-glow);
+      box-shadow: 0 0 50px var(--accent-glow);
     }
 
     .btn {
@@ -260,7 +300,6 @@
       box-shadow: 0 0 20px var(--accent-glow);
       transition: all var(--transition-speed) ease;
       border: 1px solid var(--accent);
-      cursor: pointer;
     }
 
     .btn:hover {
@@ -566,6 +605,9 @@
 </head>
 <body>
 
+  <!-- ELEMENT DU CURSEUR PERSONNALISÉ -->
+  <div class="custom-cursor" id="cursor"></div>
+
   <!-- NAVIGATION -->
   <header>
     <div class="container nav-container">
@@ -584,7 +626,7 @@
     </div>
   </header>
 
-  <!-- ACCUEIL / HERO AVEC PHOTO -->
+  <!-- ACCUEIL / HERO AVEC PHOTO FLOTTANTE -->
   <section class="hero" id="home">
     <div class="container">
       <div class="hero-grid">
@@ -916,8 +958,8 @@
         <div>
           <p>N'hésitez pas à me contacter pour toute proposition de stage ou d'information complémentaire.</p>
           <ul class="contact-info-list">
-            <li>📍 <span>Stains / Île-de-France</span></li>
-            <li>📞 <span>06 XX XX XX XX</span></li>
+            <li>📍 <span>Saint-Denis / Île-de-France</span></li>
+            <li>📞 <span>0782582042</span></li>
             <li>✉️ <span>makan.konate@email.com</span></li>
             <li>💼 <span>linkedin.com/in/makan-konate</span></li>
             <li>🐙 <span>github.com/makan-konate</span></li>
@@ -955,6 +997,21 @@
   </footer>
 
   <script>
+    // GESTION DU CURSEUR PERSONNALISÉ
+    const cursor = document.getElementById('cursor');
+
+    document.addEventListener('mousemove', (e) => {
+      cursor.style.left = e.clientX + 'px';
+      cursor.style.top = e.clientY + 'px';
+    });
+
+    // Effet d'agrandissement du curseur sur les éléments interactifs
+    const interactiveElements = document.querySelectorAll('a, button, input, textarea, .card, .project-card, .cert-card, .tag');
+    interactiveElements.forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+    });
+
     // Smooth Scroll pour la navigation
     document.querySelectorAll('nav a, .btn[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
