@@ -199,21 +199,8 @@
       z-index: 1;
     }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 3rem;
-      align-items: center;
-    }
-
-    @media (min-width: 992px) {
-      .hero-grid {
-        grid-template-columns: 1.8fr 1fr;
-      }
-    }
-
     .hero-content {
-      max-width: 850px;
+      max-width: 900px;
     }
 
     .hero-subtitle {
@@ -227,34 +214,7 @@
 
     .hero-text {
       margin-bottom: 2rem;
-      max-width: 700px;
-    }
-
-    .hero-image-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .profile-img {
-      width: min(280px, 80vw);
-      height: min(280px, 80vw);
-      object-fit: cover;
-      border-radius: 50%;
-      border: 3px solid var(--accent);
-      box-shadow: 0 0 30px var(--accent-glow);
-      animation: floatAnimation 4s ease-in-out infinite alternate;
-      transition: box-shadow var(--transition-speed);
-    }
-
-    @keyframes floatAnimation {
-      0% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-12px) rotate(1.5deg); }
-      100% { transform: translateY(6px) rotate(-1.5deg); }
-    }
-
-    .profile-img:hover {
-      box-shadow: 0 0 50px var(--accent-glow);
+      max-width: 750px;
     }
 
     .btn {
@@ -524,17 +484,6 @@
     }
 
     /* CONTACT LIENS */
-    .contact-info-list a {
-      color: var(--accent);
-      text-decoration: none;
-      transition: color var(--transition-speed);
-    }
-
-    .contact-info-list a:hover {
-      color: var(--accent-hover);
-      text-decoration: underline;
-    }
-
     .contact-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -628,23 +577,18 @@
     </div>
   </header>
 
-  <!-- ACCUEIL / HERO -->
+  <!-- ACCUEIL / HERO (SANS PHOTO) -->
   <section class="hero" id="home">
     <div class="container">
-      <div class="hero-grid">
-        <div class="hero-content">
-          <h1>Makan <span>KONATÉ</span></h1>
-          <div class="hero-subtitle">Étudiant en Informatique • Systèmes et Réseaux (BTS SIO SISR)</div>
-          <p class="hero-text">
-            Âgé de 21 ans, je suis en cours de formation pour me spécialiser dans les systèmes et réseaux. 
-            Passionné par les dangers d'Internet, je suis particulièrement intéressé par le secteur de la cybersécurité.
-          </p>
-          <!-- BOUTON DU CV EN LIEN PDF -->
-          <a href="CV_Makan_KONATE.pdf" class="btn" target="_blank">📄 Mon CV</a>
-        </div>
-        <div class="hero-image-container">
-          <img src="photo-makan.jpg" alt="Photo de Makan KONATÉ" class="profile-img">
-        </div>
+      <div class="hero-content">
+        <h1>Makan <span>KONATÉ</span></h1>
+        <div class="hero-subtitle">Étudiant en Informatique • Systèmes et Réseaux (BTS SIO SISR)</div>
+        <p class="hero-text">
+          Âgé de 21 ans, je suis en cours de formation pour me spécialiser dans les systèmes et réseaux. 
+          Passionné par les dangers d'Internet, je suis particulièrement intéressé par le secteur de la cybersécurité.
+        </p>
+        <!-- BOUTON DU CV EN LIEN PDF -->
+        <a href="CV_Makan_KONATE.pdf" class="btn" target="_blank">📄 Mon CV</a>
       </div>
     </div>
   </section>
@@ -968,7 +912,7 @@
     </div>
   </section>
 
-  <!-- CONTACT (LIÉ À FORMSPREE MONTER) -->
+  <!-- CONTACT (SANS LINKEDIN) -->
   <section id="contact">
     <div class="container">
       <span class="section-subtitle">ÉCHANGEONS ENSEMBLE</span>
@@ -980,8 +924,7 @@
           <ul class="contact-info-list">
             <li>📍 <span>Saint-Denis / Île-de-France</span></li>
             <li>📞 <span>0782582042</span></li>
-            <li>✉️️ <span>komakan11@gmail.com</span></li>
-            <li>💼 <a href="https://www.linkedin.com/in/makan-konat%C3%A9-373335327" target="_blank">linkedin.com/in/makan-konate</a></li>
+            <li>✉️ <span>komakan11@gmail.com</span></li>
           </ul>
         </div>
 
