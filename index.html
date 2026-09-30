@@ -26,7 +26,13 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      cursor: none; /* Désactive le curseur navigateur */
+    }
+
+    /* Curseur masqué par défaut sur PC pour utiliser le curseur personnalisé */
+    @media (pointer: fine) {
+      * {
+        cursor: none;
+      }
     }
 
     html {
@@ -53,18 +59,25 @@
       z-index: 0;
     }
 
-    /* CURSEUR PERSONNALISÉ ORIGINEL */
+    /* CURSEUR PERSONNALISÉ - DÉSACTIVÉ SUR TACTILE */
     .cursor {
-      position: fixed;
-      width: 20px;
-      height: 20px;
-      border: 2px solid var(--accent);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 9999;
-      box-shadow: 0 0 15px rgba(139, 92, 246, 0.8);
-      transition: width 0.15s, height 0.15s;
+      display: none;
+    }
+
+    @media (pointer: fine) {
+      .cursor {
+        display: block;
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--accent);
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+        box-shadow: 0 0 15px rgba(139, 92, 246, 0.8);
+        transition: width 0.15s, height 0.15s;
+      }
     }
 
     .container {
@@ -75,19 +88,20 @@
     }
 
     section {
-      padding: 6rem 0;
+      padding: 4rem 0;
       border-bottom: 1px solid var(--card-border);
       position: relative;
       z-index: 1;
     }
 
-    /* TYPOGRAPHIE RESPONSIVE */
+    /* TYPOGRAPHIE RESPONSIVE (AVEC BORNES POUR PAYSAGE) */
     h1 {
-      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-size: clamp(1.8rem, 4.5vw, 4rem);
       font-weight: 800;
       letter-spacing: -1px;
       color: #ffffff;
       text-shadow: 0 0 30px rgba(139, 92, 246, 0.25);
+      word-break: break-word;
     }
 
     h1 span {
@@ -95,7 +109,7 @@
     }
 
     h2 {
-      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-size: clamp(1.4rem, 3vw, 2.5rem);
       font-weight: 700;
       color: var(--accent);
       margin-bottom: 0.5rem;
@@ -103,7 +117,7 @@
 
     .section-subtitle {
       color: var(--accent);
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 2px;
       font-weight: 600;
@@ -114,15 +128,15 @@
 
     p {
       color: var(--text-muted);
-      font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+      font-size: clamp(0.9rem, 1.1vw, 1.05rem);
     }
 
-    /* NAVIGATION ET HOVER */
+    /* NAVIGATION OPTIMISÉE POUR PORTRAIT ET PAYSAGE */
     header {
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(8, 8, 8, 0.85);
+      background: rgba(8, 8, 8, 0.92);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       z-index: 1000;
@@ -132,21 +146,19 @@
 
     .nav-container {
       display: flex;
-      justify-content: space-between;
       align-items: center;
-      height: 70px;
+      justify-content: space-between;
+      height: 65px;
+      gap: 1rem;
     }
 
     .logo {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: var(--text-main);
       text-decoration: none;
-      transition: transform var(--transition-speed);
-    }
-
-    .logo:hover {
-      transform: scale(1.05);
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .logo span {
@@ -154,19 +166,32 @@
       text-shadow: 0 0 10px var(--accent-glow);
     }
 
+    nav {
+      overflow-x: auto;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    nav::-webkit-scrollbar {
+      display: none;
+    }
+
     nav ul {
       display: flex;
       list-style: none;
-      gap: 2rem;
+      gap: 1.2rem;
+      padding: 0.3rem 0;
     }
 
     nav a {
       color: var(--text-muted);
       text-decoration: none;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       position: relative;
-      padding: 0.3rem 0;
+      padding: 0.2rem 0.2rem;
       transition: color var(--transition-speed);
+      white-space: nowrap;
     }
 
     nav a::after {
@@ -191,10 +216,10 @@
 
     /* HERO SECTION */
     .hero {
-      min-height: 90vh;
+      min-height: 80vh;
       display: flex;
       align-items: center;
-      padding-top: 100px;
+      padding-top: 80px;
       position: relative;
       z-index: 1;
     }
@@ -204,16 +229,16 @@
     }
 
     .hero-subtitle {
-      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      font-size: clamp(0.95rem, 1.8vw, 1.3rem);
       color: var(--accent);
       font-weight: 600;
       margin-top: 0.5rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.2rem;
       text-shadow: 0 0 15px var(--accent-glow);
     }
 
     .hero-text {
-      margin-bottom: 2rem;
+      margin-bottom: 1.8rem;
       max-width: 750px;
     }
 
@@ -221,7 +246,7 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      padding: 0.8rem 1.8rem;
+      padding: 0.7rem 1.5rem;
       background: var(--accent);
       color: #fff;
       text-decoration: none;
@@ -243,8 +268,8 @@
     .about-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 2rem;
-      margin-top: 2rem;
+      gap: 1.5rem;
+      margin-top: 1.5rem;
     }
 
     @media (min-width: 992px) {
@@ -257,14 +282,14 @@
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 2rem;
+      padding: 1.2rem;
       transition: all var(--transition-speed) cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
       overflow: hidden;
     }
 
     .card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-4px);
       border-color: var(--accent);
       box-shadow: 0 10px 30px -10px rgba(139, 92, 246, 0.3);
     }
@@ -274,11 +299,11 @@
       background: rgba(139, 92, 246, 0.15);
       color: var(--accent);
       border: 1px solid var(--accent);
-      padding: 0.3rem 0.8rem;
+      padding: 0.25rem 0.7rem;
       border-radius: 50px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
       box-shadow: 0 0 10px rgba(139, 92, 246, 0.2);
     }
 
@@ -289,11 +314,11 @@
 
     .card ul {
       list-style: none;
-      margin-top: 1rem;
+      margin-top: 0.8rem;
     }
 
     .card li {
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       color: var(--text-muted);
     }
 
@@ -304,8 +329,8 @@
     .skill-percent {
       color: var(--accent);
       font-weight: bold;
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 0.4rem;
     }
 
     .skill-bar {
@@ -313,7 +338,7 @@
       height: 8px;
       background-color: var(--card-border);
       border-radius: 10px;
-      margin-top: 10px;
+      margin-top: 8px;
       overflow: hidden;
     }
 
@@ -333,8 +358,8 @@
     .timeline-container {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 3rem;
-      margin-top: 2rem;
+      gap: 2rem;
+      margin-top: 1.5rem;
     }
 
     @media (min-width: 992px) {
@@ -344,22 +369,22 @@
     }
 
     .timeline-title {
-      font-size: 1.4rem;
-      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      margin-bottom: 1.2rem;
       color: var(--text-main);
       border-bottom: 2px solid var(--card-border);
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.4rem;
     }
 
     .timeline {
       position: relative;
-      padding-left: 1.5rem;
+      padding-left: 1.2rem;
       border-left: 2px solid var(--card-border);
     }
 
     .timeline-item {
       position: relative;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
       transition: transform var(--transition-speed);
     }
 
@@ -370,7 +395,7 @@
     .timeline-item::before {
       content: "";
       position: absolute;
-      left: calc(-1.5rem - 5px);
+      left: calc(-1.2rem - 5px);
       top: 5px;
       width: 8px;
       height: 8px;
@@ -380,22 +405,22 @@
     }
 
     .timeline-date {
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       color: var(--accent);
       font-weight: 600;
     }
 
     .timeline-role {
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-weight: 700;
       margin: 0.2rem 0;
     }
 
     .timeline-location {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
       font-style: italic;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
     }
 
     .timeline-desc {
@@ -407,12 +432,12 @@
     .cert-card {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
+      gap: 1.2rem;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      padding: 1.5rem;
+      padding: 1.2rem;
       border-radius: 12px;
-      margin-top: 2rem;
+      margin-top: 1.5rem;
       transition: all var(--transition-speed);
     }
 
@@ -424,24 +449,24 @@
 
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1.5rem;
-      margin-top: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1.5rem;
     }
 
     .tag-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 1rem;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
     }
 
     .tag {
       background: rgba(255, 255, 255, 0.05);
       border: 1px solid var(--card-border);
-      padding: 0.3rem 0.7rem;
+      padding: 0.25rem 0.6rem;
       border-radius: 6px;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       transition: all var(--transition-speed);
     }
 
@@ -454,16 +479,16 @@
     /* PROJETS */
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+      margin-top: 1.2rem;
     }
 
     .project-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 12px;
-      padding: 1.5rem;
+      padding: 1.2rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -471,7 +496,7 @@
     }
 
     .project-card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-4px);
       border-color: var(--accent);
       box-shadow: 0 10px 30px -10px var(--accent-glow);
     }
@@ -480,15 +505,15 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 1rem;
+      margin-bottom: 0.8rem;
     }
 
     /* CONTACT LIENS */
     .contact-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 3rem;
-      margin-top: 2rem;
+      gap: 2rem;
+      margin-top: 1.5rem;
     }
 
     @media (min-width: 992px) {
@@ -499,30 +524,31 @@
 
     .contact-info-list {
       list-style: none;
-      margin-top: 1.5rem;
+      margin-top: 1.2rem;
     }
 
     .contact-info-list li {
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.8rem;
+      word-break: break-word;
     }
 
     .contact-form {
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1rem;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.4rem;
     }
 
     .form-group label {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--text-muted);
     }
 
@@ -530,7 +556,7 @@
     .form-group textarea {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      padding: 0.8rem;
+      padding: 0.7rem;
       border-radius: 8px;
       color: var(--text-main);
       font-family: inherit;
@@ -545,21 +571,62 @@
     }
 
     footer {
-      padding: 2rem 0;
+      padding: 1.5rem 0;
       text-align: center;
       color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       position: relative;
       z-index: 1;
+    }
+
+    /* ==========================================================================
+       AJUSTEMENTS DÉDIÉS POUR MODE PAYSAGE SUR MOBILE / TABLETTE (PETITE HAUTEUR)
+       ========================================================================== */
+    @media (max-height: 550px) {
+      .nav-container {
+        height: 50px;
+      }
+
+      section {
+        padding: 2.5rem 0;
+      }
+
+      .hero {
+        min-height: auto;
+        padding-top: 65px;
+        padding-bottom: 2rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      h2 {
+        font-size: 1.3rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.95rem;
+        margin-bottom: 0.8rem;
+      }
+
+      .hero-text {
+        margin-bottom: 1rem;
+      }
+
+      .btn {
+        padding: 0.5rem 1.2rem;
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <!-- ELEMENT DU CURSEUR ORIGINEL -->
+  <!-- ELEMENT DU CURSEUR (ACTIF UNIQUEMENT SUR DESKTOP/SOURIS) -->
   <div class="cursor"></div>
 
-  <!-- NAVIGATION -->
+  <!-- NAVIGATION FLUIDE PORTRAIT & PAYSAGE -->
   <header>
     <div class="container nav-container">
       <a href="#" class="logo">Makan <span>.</span></a>
@@ -577,7 +644,7 @@
     </div>
   </header>
 
-  <!-- ACCUEIL / HERO (SANS PHOTO) -->
+  <!-- ACCUEIL / HERO -->
   <section class="hero" id="home">
     <div class="container">
       <div class="hero-content">
@@ -628,7 +695,7 @@
   <section id="parcours">
     <div class="container">
       <span class="section-subtitle">02 // Parcours & Expériences</span>
-       instruction<h2>Mon Parcours</h2>
+      <h2>Mon Parcours</h2>
 
       <div class="timeline-container">
         <!-- FORMATIONS -->
@@ -777,7 +844,7 @@
       <span class="section-subtitle">05 // Réalisations</span>
       <h2>Projets & Réalisations</h2>
 
-      <h3 style="margin-top: 2rem;">🎓 Réalisations Scolaires (BTS SIO SISR)</h3>
+      <h3 style="margin-top: 1.5rem;">🎓 Réalisations Scolaires (BTS SIO SISR)</h3>
       <div class="projects-grid">
         
         <div class="project-card">
@@ -854,7 +921,7 @@
 
       </div>
 
-      <h3 style="margin-top: 3rem;">💼 Projets Professionnels</h3>
+      <h3 style="margin-top: 2.5rem;">💼 Projets Professionnels</h3>
       <div class="projects-grid">
         
         <div class="project-card">
@@ -893,13 +960,13 @@
       <span class="section-subtitle">06 // Veille Technologique</span>
       <h2>Sécurité & Vulnérabilités Réseau</h2>
 
-      <div class="card" style="margin-top: 2rem;">
+      <div class="card" style="margin-top: 1.5rem;">
         <h3>Sujet : L'évolution des vulnérabilités réseau et des cyberattaques (Ransomwares & Zero-Day)</h3>
         <p style="margin-top: 0.5rem;">
           Dans le domaine des systèmes et réseaux, la sécurité évolue constamment. Ma veille technologique me permet de suivre en temps réel les nouvelles vulnérabilités découvertes, les correctifs de sécurité publiés par les éditeurs (Microsoft, Linux, Cisco) ainsi que les meilleures pratiques de défense des infrastructures.
         </p>
 
-        <h4 style="margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-main);">Outils & Sources utilisés :</h4>
+        <h4 style="margin-top: 1.2rem; margin-bottom: 0.4rem; color: var(--text-main);">Outils & Sources utilisés :</h4>
         <div class="tag-container">
           <span class="tag">ANSSI (CERT-FR)</span>
           <span class="tag">CVE Details</span>
@@ -912,7 +979,7 @@
     </div>
   </section>
 
-  <!-- CONTACT (SANS LINKEDIN) -->
+  <!-- CONTACT -->
   <section id="contact">
     <div class="container">
       <span class="section-subtitle">ÉCHANGEONS ENSEMBLE</span>
@@ -943,7 +1010,7 @@
           </div>
           <div class="form-group">
             <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" required placeholder="Votre message..."></textarea>
+            <textarea id="message" name="message" rows="4" required placeholder="Votre message..."></textarea>
           </div>
           <button type="submit" class="btn">Envoyer</button>
         </form>
@@ -958,9 +1025,9 @@
     </div>
   </footer>
 
-  <!-- SCRIPT JS ORIGINEL (CANVAS PARTICULES + CURSEUR D'ORIGINE) -->
+  <!-- SCRIPT JS APPLIQUÉ UNIQUEMENT SUR SOURIS/PC -->
   <script>
-    // 1. DÉPLOIEMENT DU CANVAS INTERACTIF (60 PARTICULES VIOLETTES D'ORIGINE)
+    // 1. DÉPLOIEMENT DU CANVAS INTERACTIF (PARTICULES VIOLETTES)
     const canvas = document.createElement("canvas");
     canvas.id = "cyber-background";
     document.body.prepend(canvas);
@@ -970,7 +1037,7 @@
     canvas.height = window.innerHeight;
 
     const particles = [];
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 40; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -1011,26 +1078,29 @@
       canvas.height = window.innerHeight;
     });
 
-    // 2. GESTION DU CURSEUR CIRCULAIRE ORIGINEL
+    // 2. GESTION DU CURSEUR CIRCULAIRE (DÉSACTIVÉ EN TOUCH/MOBILE)
     const cursor = document.querySelector(".cursor");
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
 
-    document.addEventListener("mousemove", function(event) {
-      cursor.style.left = event.clientX + "px";
-      cursor.style.top = event.clientY + "px";
-    });
-
-    const interactiveElements = document.querySelectorAll("a, button, input, textarea, .card, .project-card, .cert-card, .tag, .btn");
-    interactiveElements.forEach(function(el) {
-      el.addEventListener("mouseenter", function() {
-        cursor.style.width = "40px";
-        cursor.style.height = "40px";
+    if (!isTouchDevice && cursor) {
+      document.addEventListener("mousemove", function(event) {
+        cursor.style.left = event.clientX + "px";
+        cursor.style.top = event.clientY + "px";
       });
 
-      el.addEventListener("mouseleave", function() {
-        cursor.style.width = "20px";
-        cursor.style.height = "20px";
+      const interactiveElements = document.querySelectorAll("a, button, input, textarea, .card, .project-card, .cert-card, .tag, .btn");
+      interactiveElements.forEach(function(el) {
+        el.addEventListener("mouseenter", function() {
+          cursor.style.width = "40px";
+          cursor.style.height = "40px";
+        });
+
+        el.addEventListener("mouseleave", function() {
+          cursor.style.width = "20px";
+          cursor.style.height = "20px";
+        });
       });
-    });
+    }
 
     // Smooth Scroll pour la navigation
     document.querySelectorAll('nav a, .btn[href^="#"]').forEach(anchor => {
@@ -1041,8 +1111,9 @@
         
         const targetElement = document.querySelector(targetId);
         if (targetElement) {
+          const headerHeight = document.querySelector('header').offsetHeight;
           window.scrollTo({
-            top: targetElement.offsetTop - 70,
+            top: targetElement.offsetTop - headerHeight,
             behavior: 'smooth'
           });
         }
